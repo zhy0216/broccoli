@@ -10,8 +10,9 @@ interface State {
   name: string
   email: string
   confirmEmail: string
-  submitText: string
+  isLoading: boolean
   errorAttributes: Set<keyof State>
+  errorMessage: string
 }
 
 // https://stackoverflow.com/a/46181
@@ -28,8 +29,9 @@ export class InviteForm extends React.Component<Props, State> {
       name: "",
       email: "",
       confirmEmail: "",
-      submitText: "Send",
+      isLoading: false,
       errorAttributes: new Set(),
+      errorMessage: "",
     }
   }
 
@@ -38,17 +40,21 @@ export class InviteForm extends React.Component<Props, State> {
   makeAuth = async () => {
     const {name, email} = this.state
     const url = "https://l94wc2001h.execute-api.ap-southeast-2.amazonaws.com/prod/fake-auth"
+
     return fetch(url, {
       method: "POST",
       body: JSON.stringify({name, email})
     })
-      .then(response => response.json())
+      .then(r => r.ok? r.json(): Promise.reject(r))
   }
 
   onSubmit = () => {
     const {onSuccessSubmit} = this.props
-    const {name, email, confirmEmail} = this.state
+    const {name, email, confirmEmail, isLoading} = this.state
     const errorAttributes = new Set<keyof State>()
+    if(isLoading) {
+      return
+    }
     // do validation here
     if(name.length < 3) {
       errorAttributes.add("name")
@@ -64,18 +70,27 @@ export class InviteForm extends React.Component<Props, State> {
 
     this.setState({errorAttributes})
 
-    if(errorAttributes.size === 0) {
+    if (errorAttributes.size === 0) {
+      this.setState({isLoading: true, errorMessage: ""})
       this.makeAuth()
         .then(response => {
           onSuccessSubmit()
-        }).catch(() => {
+        })
+        .catch(res => {
+          res.json()
+            .then(({errorMessage}: {errorMessage: string}) => {
+              this.setState({errorMessage})
+            })
 
-      })
+        })
+        .finally(() => {
+          this.setState({isLoading: false})
+        })
     }
   }
 
   render() {
-    const {name, email, confirmEmail, submitText, errorAttributes} = this.state
+    const {name, email, confirmEmail, isLoading, errorAttributes, errorMessage} = this.state
     return <div className={styles.container}>
       <Input
         error={errorAttributes.has("name")}
@@ -101,8 +116,9 @@ export class InviteForm extends React.Component<Props, State> {
       <button
         onClick={this.onSubmit}
       >
-        {submitText}
+        {isLoading? "Sending, please wait.": "Send"}
       </button>
+      {<div className={styles.errorMessage}>{errorMessage}</div>}
     </div>
   }
 

@@ -44,7 +44,7 @@ const Home: NextPage = () => {
           visible={allDoneModalVisible}
           onClickOutside={() => setAllDoneModalVisible(false)}
         >
-            <div>You will be the first to experience <br />
+            <div>You will be the first to experience
               Broccoli & Co. when we launch.
             </div>
             <button
