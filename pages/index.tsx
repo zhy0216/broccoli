@@ -1,7 +1,11 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
+import {useState} from "react"
+import {Modal} from "../components/Modal"
 
 const Home: NextPage = () => {
+  const [inviteModalVisible, setInviteModalVisible] = useState(false)
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -14,9 +18,14 @@ const Home: NextPage = () => {
         <div>be the first when we launch.</div>
         <button
           className={styles.inviteBtn}
+          onClick={() => setInviteModalVisible(true)}
         >
           Request an invite
         </button>
+        {<Modal
+          title="Request an invite"
+          visible={inviteModalVisible}
+        ></Modal>}
       </main>
 
       <footer className={styles.footer}>
