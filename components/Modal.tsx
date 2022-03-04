@@ -5,17 +5,22 @@ import styles from "./Modal.module.scss"
 interface Props {
   title: string
   visible: boolean
+  onClickOutside?: () => void
 }
 
-interface State {
-}
+export class Modal extends React.Component<Props> {
 
-export class Modal extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
+  domClick = (e: Event) => {
+    const {onClickOutside} = this.props
+    onClickOutside && onClickOutside()
+  }
 
-    }
+  componentDidMount() {
+    window.addEventListener("click", this.domClick)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("click", this.domClick)
   }
 
   render() {
@@ -26,7 +31,10 @@ export class Modal extends React.Component<Props, State> {
 
     return ReactDOM.createPortal(<>
       <div className={styles.mask}></div>
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        onClick={e => e.stopPropagation()}
+      >
         <div className={styles.header}>{title}</div>
         <div className={styles.content}>{children}</div>
       </div>

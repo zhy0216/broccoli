@@ -6,6 +6,7 @@ import {InviteForm} from "../components/InviteForm"
 
 const Home: NextPage = () => {
   const [inviteModalVisible, setInviteModalVisible] = useState(false)
+  const [allDoneModalVisible, setAllDoneModalVisible] = useState(false)
 
   return (
     <div className={styles.container}>
@@ -19,21 +20,41 @@ const Home: NextPage = () => {
         <div>be the first when we launch.</div>
         <button
           className={styles.inviteBtn}
-          onClick={() => setInviteModalVisible(true)}
+          onClick={(e) => {
+            e.stopPropagation()
+            setInviteModalVisible(true)
+          }}
         >
           Request an invite
         </button>
         <Modal
           title="Request an invite"
           visible={inviteModalVisible}
-          confirmBtnText={"sending"}
-          onConfirm={() => {}}
+          onClickOutside={() => setInviteModalVisible(false)}
         >
           <InviteForm
-
+            onSuccessSubmit={() => {
+              setInviteModalVisible(false)
+              setAllDoneModalVisible(true)
+            }}
           />
         </Modal>
-        
+        <Modal
+          title="All done!"
+          visible={allDoneModalVisible}
+          onClickOutside={() => setAllDoneModalVisible(false)}
+        >
+            <div>You will be the first to experience <br />
+              Broccoli & Co. when we launch.
+            </div>
+            <button
+              className={styles.okBtn}
+              onClick={() => setAllDoneModalVisible(false)}
+            >
+              OK
+            </button>
+        </Modal>
+
       </main>
 
       <footer className={styles.footer}>
