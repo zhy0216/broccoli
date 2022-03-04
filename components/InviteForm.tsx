@@ -121,6 +121,4 @@ export class InviteForm extends React.Component<Props, State> {
       {<div className={styles.errorMessage}>{errorMessage}</div>}
     </div>
   }
-
-
 }

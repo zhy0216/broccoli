@@ -8,21 +8,13 @@ interface Props {
   error: boolean
 }
 
-interface State {
-}
-
-export class Input extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {}
-  }
-
+export class Input extends React.Component<Props> {
   render() {
     const {onChange, value, placeholder, error} = this.props
-
-
+    const className = error? [styles.container, styles.containerError].join(" "): styles.container
+    
     return <div
-      className={error? [styles.container, styles.containerError].join(" "): styles.container}
+      className={className}
     >
       <input
         onChange={(e) => onChange(e.target.value)}

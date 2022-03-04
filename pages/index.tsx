@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type {NextPage} from 'next'
 import styles from '../styles/Home.module.scss'
 import {useState} from "react"
 import {Modal} from "../components/Modal"
@@ -44,17 +44,16 @@ const Home: NextPage = () => {
           visible={allDoneModalVisible}
           onClickOutside={() => setAllDoneModalVisible(false)}
         >
-            <div>You will be the first to experience
-              Broccoli & Co. when we launch.
-            </div>
-            <button
-              className={styles.okBtn}
-              onClick={() => setAllDoneModalVisible(false)}
-            >
-              OK
-            </button>
+          <div>You will be the first to experience
+            Broccoli & Co. when we launch.
+          </div>
+          <button
+            className={styles.okBtn}
+            onClick={() => setAllDoneModalVisible(false)}
+          >
+            OK
+          </button>
         </Modal>
-
       </main>
 
       <footer className={styles.footer}>

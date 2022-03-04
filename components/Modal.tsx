@@ -1,4 +1,4 @@
-import React, {MouseEventHandler} from "react"
+import React from "react"
 import ReactDOM from "react-dom"
 import styles from "./Modal.module.scss"
 
@@ -9,7 +9,6 @@ interface Props {
 }
 
 export class Modal extends React.Component<Props> {
-
   domClick = (e: Event) => {
     const {onClickOutside} = this.props
     onClickOutside && onClickOutside()
