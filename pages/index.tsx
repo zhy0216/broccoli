@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import styles from '../styles/Home.module.scss'
 import {useState} from "react"
 import {Modal} from "../components/Modal"
+import {InviteForm} from "../components/InviteForm"
 
 const Home: NextPage = () => {
   const [inviteModalVisible, setInviteModalVisible] = useState(false)
@@ -22,10 +23,17 @@ const Home: NextPage = () => {
         >
           Request an invite
         </button>
-        {<Modal
+        <Modal
           title="Request an invite"
           visible={inviteModalVisible}
-        ></Modal>}
+          confirmBtnText={"sending"}
+          onConfirm={() => {}}
+        >
+          <InviteForm
+
+          />
+        </Modal>
+        
       </main>
 
       <footer className={styles.footer}>

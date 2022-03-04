@@ -6,6 +6,8 @@
   width: 400px;
   background: white;
   padding: 40px;
+  display: flex;
+  flex-flow: column;
   .header {
     text-align: center;
     font-weight: 400;
