@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+.header {
+  border-bottom: 1px solid black;
+  padding: 0 10%;
+}
+
+.main {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.inviteBtn {
+  padding: 10px 20px;
+  margin-top: 20px;
+}
+
+
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid black;
+}
+
+@media (max-width: 600px) {
+}
