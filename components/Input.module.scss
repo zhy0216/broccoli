@@ -1,8 +1,16 @@
 .container {
   flex: 1;
+  box-sizing: border-box;
 
   input {
     width: 100%;
     padding: 8px 10px;
+  }
+}
+
+.containerError {
+  input {
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px solid black;
   }
 }

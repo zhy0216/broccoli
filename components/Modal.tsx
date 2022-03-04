@@ -8,7 +8,6 @@ interface Props {
 }
 
 interface State {
-  // visible: boolean
 }
 
 export class Modal extends React.Component<Props, State> {

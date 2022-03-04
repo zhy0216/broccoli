@@ -11,8 +11,15 @@ interface State {
   email: string
   confirmEmail: string
   submitText: string
-  errorAttributes: Set<String>
+  errorAttributes: Set<keyof State>
 }
+
+// https://stackoverflow.com/a/46181
+const validateEmail = (email: string) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
 
 export class InviteForm extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -28,16 +35,42 @@ export class InviteForm extends React.Component<Props, State> {
 
   makeOnChange = (attributeName: keyof State) => (value: string) => this.setState({[attributeName]: value} as any)
 
-  onSubmit = () => {
-    const {name, email, confirmEmail} = this.state
-    const errorAttributes = new Set<string>()
-    // do validation here
+  makeAuth = async () => {
+    const {name, email} = this.state
+    const url = "https://l94wc2001h.execute-api.ap-southeast-2.amazonaws.com/prod/fake-auth"
+    return fetch(url, {
+      method: "POST",
+      body: JSON.stringify({name, email})
+    })
+      .then(response => response.json())
+  }
 
+  onSubmit = () => {
+    const {onSuccessSubmit} = this.props
+    const {name, email, confirmEmail} = this.state
+    const errorAttributes = new Set<keyof State>()
+    // do validation here
+    if(name.length < 3) {
+      errorAttributes.add("name")
+    }
+
+    if(!validateEmail(email)) {
+      errorAttributes.add("email")
+    }
+
+    if(email !== confirmEmail) {
+      errorAttributes.add("confirmEmail")
+    }
 
     this.setState({errorAttributes})
 
     if(errorAttributes.size === 0) {
+      this.makeAuth()
+        .then(response => {
+          onSuccessSubmit()
+        }).catch(() => {
 
+      })
     }
   }
 

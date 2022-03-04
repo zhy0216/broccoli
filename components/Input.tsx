@@ -22,7 +22,7 @@ export class Input extends React.Component<Props, State> {
 
 
     return <div
-      className={error? styles.container: [styles.container, styles.containerError].join(" ")}
+      className={error? [styles.container, styles.containerError].join(" "): styles.container}
     >
       <input
         onChange={(e) => onChange(e.target.value)}
